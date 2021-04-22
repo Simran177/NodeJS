@@ -20,6 +20,15 @@ app.use((req,res,next)=>{
      next();
 });
 
+// ROUTE LEVEL MIDDLEWARE
+// Method-1 of declaring rote leel middleware
+/*
+app.use('/dashboard',(req,res,next)=>{
+    console.log("Route Level Middleware");
+    next();
+});
+*/
+
 app.get('/',(req,res)=>{
     console.log("Home Page");
     res.send("Home Page");
@@ -27,7 +36,7 @@ app.get('/',(req,res)=>{
 });
 
 
-app.get('/dashboard',(req,res)=>{
+app.get('/dashboard',auth,(req,res)=>{ //auth added for route-level 
     console.log("Dashboard Page");
     res.send("Dashboard Page");
 
@@ -36,3 +45,16 @@ app.post('/user',(req,res)=>{
     console.log("User Page");
     res.send("User Page");
 });
+
+// Method-2 of route level 
+function auth(req,res,next){
+    // console.log("Route Level Middleware");
+    if(req.query.pwd==="admin")
+    {
+    next();
+    }
+    else{
+        res.send("You are not an Authentic user");
+    }
+}
+
