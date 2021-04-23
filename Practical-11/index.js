@@ -28,10 +28,11 @@ app.get('/valid.html',(req,res)=>{
 app.get('/invalid.html',(req,res)=>{
     res.sendFile(__dirname+"/invalid.html");
 });
+/*
 app.get('*',(req, res)=>{
     res.sendFile(__dirname+"/404.jpg");
   });
-
+  */
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
@@ -46,3 +47,13 @@ app.post('/valid.html', (req,res)=>{
     }
 });
 
+app.use((req,res,next)=>{
+    const err= new Error("404 Page Not Found");
+    err.status=404;
+    next(err);
+});
+//Error handling Middleware
+app.use((err,req,res,next)=>{
+    res.status(err.status || 500);
+    res.send(err.message);
+});
