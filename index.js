@@ -53,7 +53,7 @@ app.get('/api/courses/:id', (req,res)=>{
     res.send(course);
 });
 app.get('/api/courses/:name', (req,res)=>{
-    const course= courses.find((c)=> c.name === req.params.name)
+    const course= courses.find((c)=> c.name === (req.params.name))
     if(!course) 
         res.status(404).send("The course you are looking is not available");
     res.send(course);
@@ -71,5 +71,5 @@ app.post('/api/courses', (req,res)=>{
 
     courses.push(course);
     // res.send(course)
-    res.send("New course created successfully");
+    res.send(course);
 });
